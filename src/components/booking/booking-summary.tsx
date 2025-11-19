@@ -37,9 +37,7 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setIsConfirming(false);
 
-    toast.success("Booking confirmed successfully!", {
-      description: `Total cost: $${calculateTotal}`,
-    });
+    toast.success("Booking confirmed successfully!");
   };
 
   return (
