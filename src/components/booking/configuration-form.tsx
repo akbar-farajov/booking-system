@@ -116,7 +116,7 @@ export const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
 
             <Button
               type="submit"
-              className="w-full h-12 text-base shadow-md hover:shadow-lg transition-all"
+              className="w-full h-14 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-xl hover:shadow-2xl transition-all font-bold text-base"
               disabled={isSubmitting}
             >
               {isSubmitting ? (

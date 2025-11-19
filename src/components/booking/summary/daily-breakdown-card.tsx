@@ -19,14 +19,19 @@ export const DailyBreakdownCard: React.FC<DailyBreakdownCardProps> = ({
   availableLunches,
   availableDinners,
 }) => (
-  <Card className="shadow-xl border-2 hover:shadow-2xl transition-shadow">
-    <CardHeader className="bg-accent/30">
+  <Card className="shadow-2xl border-2 border-indigo-200 dark:border-indigo-800 hover:shadow-indigo-200/50 dark:hover:shadow-indigo-900/50 transition-all bg-white/90 dark:bg-slate-800/90">
+    <CardHeader className="bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-950/50 dark:to-purple-950/50 border-b-2 border-indigo-200 dark:border-indigo-800">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Hotel className="h-5 w-5 text-primary" />
-          <CardTitle className="text-xl">Daily Breakdown</CardTitle>
+        <div className="flex items-center gap-3">
+          <Hotel className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+          <CardTitle className="text-2xl text-indigo-900 dark:text-indigo-100">
+            Daily Breakdown
+          </CardTitle>
         </div>
-        <Badge variant="outline" className="text-sm">
+        <Badge
+          variant="outline"
+          className="text-sm px-3 py-1.5 border-2 border-indigo-400 dark:border-indigo-600 text-indigo-700 dark:text-indigo-300 font-bold"
+        >
           {numberOfDays} {numberOfDays === 1 ? "day" : "days"}
         </Badge>
       </div>

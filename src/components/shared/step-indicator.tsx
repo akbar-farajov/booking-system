@@ -18,12 +18,12 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
     <div className="relative">
       <div
         className={cn(
-          "w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center font-bold transition-all duration-300 shadow-lg border-2",
+          "w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center font-bold transition-all duration-300 shadow-lg border-3",
           active
-            ? "bg-primary text-primary-foreground border-primary scale-110 animate-pulse"
+            ? "bg-gradient-to-br from-indigo-600 to-purple-600 text-white border-indigo-400 scale-110 animate-pulse"
             : completed
-            ? "bg-green-500 text-white border-green-500"
-            : "bg-muted text-muted-foreground border-border"
+            ? "bg-gradient-to-br from-emerald-500 to-teal-600 text-white border-emerald-400"
+            : "bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 border-slate-300 dark:border-slate-600"
         )}
       >
         {completed ? (
@@ -35,13 +35,15 @@ export const StepIndicator: React.FC<StepIndicatorProps> = ({
         )}
       </div>
       {active && (
-        <div className="absolute -inset-1 bg-primary/20 rounded-full animate-ping" />
+        <div className="absolute -inset-1 bg-indigo-400/30 rounded-full animate-ping" />
       )}
     </div>
     <span
       className={cn(
         "text-xs sm:text-sm mt-2 font-semibold text-center transition-colors max-w-[80px] sm:max-w-none",
-        active ? "text-foreground" : "text-muted-foreground"
+        active
+          ? "text-indigo-900 dark:text-indigo-200"
+          : "text-slate-600 dark:text-slate-400"
       )}
     >
       {label}

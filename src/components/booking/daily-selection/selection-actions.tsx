@@ -15,11 +15,11 @@ export const SelectionActions: React.FC<SelectionActionsProps> = ({
   onBack,
   onContinue,
 }) => (
-  <div className="flex flex-col sm:flex-row gap-3 pt-4">
+  <div className="flex flex-col sm:flex-row gap-4 pt-6">
     <Button
       variant="outline"
       onClick={onBack}
-      className="flex-1 h-11"
+      className="flex-1 h-14 border-2 border-indigo-200 dark:border-indigo-800 hover:bg-indigo-50 dark:hover:bg-indigo-950/30 text-indigo-700 dark:text-indigo-300 font-semibold"
       disabled={isProcessing}
     >
       Back to Configuration
@@ -27,7 +27,7 @@ export const SelectionActions: React.FC<SelectionActionsProps> = ({
     <Button
       onClick={onContinue}
       disabled={!isFormValid || isProcessing}
-      className="flex-1 h-11 shadow-md hover:shadow-lg transition-all"
+      className="flex-1 h-14 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-xl hover:shadow-2xl transition-all font-bold text-base"
     >
       {isProcessing ? (
         <>
@@ -37,7 +37,7 @@ export const SelectionActions: React.FC<SelectionActionsProps> = ({
       ) : (
         <>
           Continue to Summary
-          <CheckCircle2 className="ml-2 h-4 w-4" />
+          <CheckCircle2 className="ml-2 h-5 w-5" />
         </>
       )}
     </Button>
