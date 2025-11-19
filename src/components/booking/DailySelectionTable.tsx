@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -24,6 +25,7 @@ import {
 import { hotels, meals } from "@/data/bookingData";
 import { useBookingStore } from "@/store/bookingStore";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 
 interface DailySelectionTableProps {
   onComplete: () => void;
@@ -38,6 +40,7 @@ export const DailySelectionTable: React.FC<DailySelectionTableProps> = ({
   const updateDaySelection = useBookingStore(
     (state) => state.updateDaySelection
   );
+  const [isProcessing, setIsProcessing] = useState(false);
 
   if (!booking.destination || !booking.boardType) {
     return null;
@@ -66,6 +69,16 @@ export const DailySelectionTable: React.FC<DailySelectionTableProps> = ({
   const isFormValid = booking.dailySelections.every(
     (day) => day.hotelId !== null
   );
+
+  const handleContinue = async () => {
+    setIsProcessing(true);
+
+    // Simulate API call for calculating prices
+    await new Promise((resolve) => setTimeout(resolve, 800));
+
+    setIsProcessing(false);
+    onComplete();
+  };
 
   return (
     <Card className="shadow-lg">
@@ -182,15 +195,27 @@ export const DailySelectionTable: React.FC<DailySelectionTableProps> = ({
         )}
 
         <div className="flex gap-4">
-          <Button variant="outline" onClick={onBack} className="flex-1">
+          <Button
+            variant="outline"
+            onClick={onBack}
+            className="flex-1"
+            disabled={isProcessing}
+          >
             Back to Configuration
           </Button>
           <Button
-            onClick={onComplete}
-            disabled={!isFormValid}
+            onClick={handleContinue}
+            disabled={!isFormValid || isProcessing}
             className="flex-1"
           >
-            Continue to Summary
+            {isProcessing ? (
+              <>
+                <Spinner className="mr-2" />
+                Processing...
+              </>
+            ) : (
+              "Continue to Summary"
+            )}
           </Button>
         </div>
       </CardContent>

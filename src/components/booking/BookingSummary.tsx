@@ -1,5 +1,6 @@
 import { format } from "date-fns";
 import { CheckCircle2 } from "lucide-react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -9,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Spinner } from "@/components/ui/spinner";
 import { countries, hotels, meals, boardTypes } from "@/data/bookingData";
 import { useBookingStore } from "@/store/bookingStore";
 import { toast } from "sonner";
@@ -23,6 +25,7 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
   onReset,
 }) => {
   const booking = useBookingStore((state) => state.booking);
+  const [isConfirming, setIsConfirming] = useState(false);
 
   if (!booking.destination || !booking.boardType || !booking.startDate) {
     return null;
@@ -58,7 +61,12 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
     return total;
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
+    setIsConfirming(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    setIsConfirming(false);
     toast.success("Booking confirmed successfully!", {
       description: `Total cost: $${calculateTotal()}`,
     });
@@ -66,8 +74,8 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
 
   return (
     <div className="space-y-6">
-      <Card className="shadow-lg border-success">
-        <CardHeader className="bg-gradient-primary text-primary-foreground">
+      <Card className="shadow-lg pt-0">
+        <CardHeader className="bg-gradient-primary text-primary-foreground rounded-t-xl p-6">
           <div className="flex items-center gap-2">
             <CheckCircle2 className="h-6 w-6" />
             <div>
@@ -156,7 +164,7 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
         </CardContent>
       </Card>
 
-      <Card className="shadow-lg border-2 border-primary">
+      <Card className="shadow-lg border-2 border-green-500">
         <CardContent className="pt-6">
           <div className="flex justify-between items-center text-2xl font-bold">
             <span>Total Cost</span>
@@ -166,15 +174,36 @@ export const BookingSummary: React.FC<BookingSummaryProps> = ({
       </Card>
 
       <div className="flex gap-4">
-        <Button variant="outline" onClick={onBack} className="flex-1">
+        <Button
+          variant="outline"
+          onClick={onBack}
+          className="flex-1"
+          disabled={isConfirming}
+        >
           Back to Selections
         </Button>
-        <Button onClick={handleConfirm} className="flex-1 bg-gradient-primary">
-          Confirm Booking
+        <Button
+          onClick={handleConfirm}
+          className="flex-1 bg-green-500"
+          disabled={isConfirming}
+        >
+          {isConfirming ? (
+            <>
+              <Spinner className="mr-2" />
+              Confirming...
+            </>
+          ) : (
+            "Confirm Booking"
+          )}
         </Button>
       </div>
 
-      <Button variant="ghost" onClick={onReset} className="w-full">
+      <Button
+        variant="ghost"
+        onClick={onReset}
+        className="w-full"
+        disabled={isConfirming}
+      >
         Start New Booking
       </Button>
     </div>

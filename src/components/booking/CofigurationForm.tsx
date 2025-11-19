@@ -1,11 +1,12 @@
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
@@ -61,6 +62,7 @@ export const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
 }) => {
   const booking = useBookingStore((state) => state.booking);
   const updateBooking = useBookingStore((state) => state.updateBooking);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -91,7 +93,12 @@ export const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
     booking.boardType,
   ]);
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsSubmitting(true);
+
+    // Simulate API call for fetching available hotels/meals
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     const dailySelections: DaySelection[] = Array.from(
       { length: values.numberOfDays },
       (_, i) => {
@@ -116,6 +123,7 @@ export const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
       dailySelections,
     });
 
+    setIsSubmitting(false);
     onComplete();
   };
 
@@ -305,8 +313,15 @@ export const ConfigurationForm: React.FC<ConfigurationFormProps> = ({
               )}
             />
 
-            <Button type="submit" className="w-full">
-              Continue to Hotel & Meal Selection
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <Spinner className="mr-2" />
+                  Loading...
+                </>
+              ) : (
+                "Continue to Hotel & Meal Selection"
+              )}
             </Button>
           </form>
         </Form>

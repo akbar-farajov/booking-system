@@ -4,6 +4,8 @@ import type { BookingConfiguration, DaySelection } from "@/types/booking";
 
 interface BookingStore {
   booking: BookingConfiguration;
+  isLoading: boolean;
+  setLoading: (loading: boolean) => void;
   updateBooking: (updates: Partial<BookingConfiguration>) => void;
   updateDaySelection: (
     dayIndex: number,
@@ -21,7 +23,6 @@ const initialBooking: BookingConfiguration = {
   dailySelections: [],
 };
 
-// Custom storage for handling Date serialization/deserialization
 const customStorage = {
   getItem: (name: string) => {
     const str = localStorage.getItem(name);
@@ -29,7 +30,6 @@ const customStorage = {
 
     const { state } = JSON.parse(str);
 
-    // Convert date strings back to Date objects
     if (state.booking.startDate) {
       state.booking.startDate = new Date(state.booking.startDate);
     }
@@ -58,6 +58,12 @@ export const useBookingStore = create<BookingStore>()(
   persist(
     (set) => ({
       booking: initialBooking,
+      isLoading: false,
+
+      setLoading: (loading) =>
+        set(() => ({
+          isLoading: loading,
+        })),
 
       updateBooking: (updates) =>
         set((state) => ({
