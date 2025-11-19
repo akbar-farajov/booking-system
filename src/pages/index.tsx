@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
+import { useQueryState } from "nuqs";
 import { Plane, Settings, Calendar, CheckCircle } from "lucide-react";
 import { ConfigurationForm } from "@/components/booking/configuration-form";
 import { DailySelectionTable } from "@/components/booking/daily-selection-table";
@@ -17,7 +18,13 @@ const STEPS_CONFIG = [
 ] as const;
 
 const Index = () => {
-  const [currentStep, setCurrentStep] = useState<Step>("config");
+  const [currentStep, setCurrentStep] = useQueryState<Step>("step", {
+    defaultValue: "config",
+    parse: (value) => {
+      const validSteps: Step[] = ["config", "daily", "summary"];
+      return validSteps.includes(value as Step) ? (value as Step) : "config";
+    },
+  });
   const resetBooking = useBookingStore((state) => state.resetBooking);
 
   const handleReset = () => {
@@ -37,8 +44,8 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-slate-900 dark:via-indigo-950 dark:to-purple-950">
-      <header className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white shadow-2xl">
+    <div className="min-h-screen bg-linear-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-slate-900 dark:via-indigo-950 dark:to-purple-950">
+      <header className="bg-linear-to-r from-indigo-600 via-purple-600 to-pink-600 text-white shadow-2xl">
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">

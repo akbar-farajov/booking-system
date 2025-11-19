@@ -81,7 +81,7 @@ export const DailySelectionCard: React.FC<DailySelectionCardProps> = ({
             value={day.hotelId?.toString() || ""}
             onValueChange={(value) => onHotelChange(index, value)}
           >
-            <SelectTrigger className="h-11">
+            <SelectTrigger className="h-11 w-full">
               <SelectValue placeholder="Select hotel" />
             </SelectTrigger>
             <SelectContent className="bg-popover z-50">
@@ -94,54 +94,56 @@ export const DailySelectionCard: React.FC<DailySelectionCardProps> = ({
           </Select>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-2">
-            <label className="text-sm font-medium flex items-center gap-1.5">
-              <Utensils className="h-4 w-4 text-primary" />
-              Lunch
-            </label>
-            <Select
-              value={day.lunchId?.toString() || "none"}
-              onValueChange={(value) => onLunchChange(index, value)}
-              disabled={noMeals}
+        <div className="space-y-2">
+          <label className="text-sm font-medium flex items-center gap-1.5">
+            <Utensils className="h-4 w-4 text-primary" />
+            Lunch
+          </label>
+          <Select
+            value={day.lunchId?.toString() || "none"}
+            onValueChange={(value) => onLunchChange(index, value)}
+            disabled={noMeals}
+          >
+            <SelectTrigger
+              className={cn("h-11 w-full", noMeals && "opacity-50")}
             >
-              <SelectTrigger className={cn("h-11", noMeals && "opacity-50")}>
-                <SelectValue placeholder={noMeals ? "N/A" : "Select"} />
-              </SelectTrigger>
-              <SelectContent className="bg-popover z-50">
-                <SelectItem value="none">No lunch</SelectItem>
-                {availableLunches?.map((meal) => (
-                  <SelectItem key={meal.id} value={meal.id.toString()}>
-                    {meal.name} (${meal.price})
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+              <SelectValue placeholder={noMeals ? "N/A" : "Select"} />
+            </SelectTrigger>
+            <SelectContent className="bg-popover z-50">
+              <SelectItem value="none">No lunch</SelectItem>
+              {availableLunches?.map((meal) => (
+                <SelectItem key={meal.id} value={meal.id.toString()}>
+                  {meal.name} (${meal.price})
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium flex items-center gap-1.5">
-              <Utensils className="h-4 w-4 text-primary" />
-              Dinner
-            </label>
-            <Select
-              value={day.dinnerId?.toString() || "none"}
-              onValueChange={(value) => onDinnerChange(index, value)}
-              disabled={noMeals}
+        <div className="space-y-2 w-full">
+          <label className="text-sm font-medium flex items-center gap-1.5">
+            <Utensils className="h-4 w-4 text-primary" />
+            Dinner
+          </label>
+          <Select
+            value={day.dinnerId?.toString() || "none"}
+            onValueChange={(value) => onDinnerChange(index, value)}
+            disabled={noMeals}
+          >
+            <SelectTrigger
+              className={cn("h-11 w-full", noMeals && "opacity-50")}
             >
-              <SelectTrigger className={cn("h-11", noMeals && "opacity-50")}>
-                <SelectValue placeholder={noMeals ? "N/A" : "Select"} />
-              </SelectTrigger>
-              <SelectContent className="bg-popover z-50">
-                <SelectItem value="none">No dinner</SelectItem>
-                {availableDinners?.map((meal) => (
-                  <SelectItem key={meal.id} value={meal.id.toString()}>
-                    {meal.name} (${meal.price})
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+              <SelectValue placeholder={noMeals ? "N/A" : "Select"} />
+            </SelectTrigger>
+            <SelectContent className="bg-popover z-50">
+              <SelectItem value="none">No dinner</SelectItem>
+              {availableDinners?.map((meal) => (
+                <SelectItem key={meal.id} value={meal.id.toString()}>
+                  {meal.name} (${meal.price})
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </CardContent>
     </Card>
